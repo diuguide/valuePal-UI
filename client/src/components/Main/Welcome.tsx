@@ -5,7 +5,7 @@ const Welcome = () => {
         <Container>
             <Row>
                 <Col>
-                
+                <div className="intro">Welcome to ValuePal, a stock information tool</div>
                 </Col>
             </Row>
         </Container>

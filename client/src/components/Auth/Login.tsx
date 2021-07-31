@@ -1,11 +1,12 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { loginUser } from "../../utilities/auth";
+import { yahoo } from "../../utilities/stockData";
 import { useState } from "react";
 
 const Login = () => {
   const [loginCreds, setloginCreds] = useState({
     username: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e: any) => {
@@ -19,6 +20,7 @@ const Login = () => {
         console.log("response on front end: ", res);
       })
       .catch((err) => console.error(err));
+      yahoo("tsla");
   };
 
   return (
