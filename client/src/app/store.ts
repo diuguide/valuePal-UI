@@ -1,8 +1,9 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import errorReducer from "../slice/error/errorSlice";
 
 export const store = configureStore({
   reducer: {
-    
+    error: errorReducer
   },
 });
 

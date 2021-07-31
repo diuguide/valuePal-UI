@@ -26,27 +26,9 @@ const Register = () => {
 
   return (
     <Row>
-      <Col lg={4}>
+      <Col>
         <Form>
-          <Form.Group>
-            <Form.Control
-              type="text"
-              name="username"
-              value={registerCreds.username}
-              onChange={handleChange}
-              placeholder="Username"
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              type="password"
-              name="password"
-              value={registerCreds.password}
-              onChange={handleChange}
-              placeholder="Password"
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group>
+          <Form.Group className="m-2">
             <Form.Control
               type="text"
               name="firstName"
@@ -55,7 +37,7 @@ const Register = () => {
               placeholder="First Name"
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="m-2">
             <Form.Control
               type="text"
               name="lastName"
@@ -64,7 +46,7 @@ const Register = () => {
               placeholder="Last Name"
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="m-2">
             <Form.Control
               type="text"
               name="email"
@@ -73,7 +55,28 @@ const Register = () => {
               placeholder="Email"
             ></Form.Control>
           </Form.Group>
-          <Button onClick={handleClick}>Submit</Button>
+          <Form.Group className="m-2">
+            <Form.Control
+              type="text"
+              name="username"
+              value={registerCreds.username}
+              onChange={handleChange}
+              placeholder="Username"
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Control
+              type="password"
+              name="password"
+              value={registerCreds.password}
+              onChange={handleChange}
+              placeholder="Password"
+            ></Form.Control>
+          </Form.Group>
+
+          <Button className="m-2" onClick={handleClick}>
+            Submit
+          </Button>
         </Form>
       </Col>
     </Row>
