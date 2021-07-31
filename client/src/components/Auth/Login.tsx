@@ -1,9 +1,20 @@
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { loginUser } from "../../utilities/auth";
-import { yahoo } from "../../utilities/stockData";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  errorState,
+  showMessage,
+  hideMessage,
+} from "../../slice/error/errorSlice";
+import { isLoading, isLoaded } from "../../slice/auth/authSlice";
 import { useState } from "react";
+import { useHistory } from "react-router";
 
 const Login = () => {
+  const history = useHistory();
+  const error = useAppSelector(errorState);
+  const dispatch = useAppDispatch();
+
   const [loginCreds, setloginCreds] = useState({
     username: "",
     password: "",
@@ -15,19 +26,31 @@ const Login = () => {
   };
 
   const handleClick = () => {
+    dispatch(isLoading());
     loginUser(loginCreds)
       .then((res) => {
-        console.log("response on front end: ", res);
+        setloginCreds({
+          username: "",
+          password: "",
+        });
+        if (res.status === 200) {
+          dispatch(isLoaded(res.headers.authorization));
+          history.push("/main");
+        }
       })
-      .catch((err) => console.error(err));
-      yahoo("tsla");
+      .catch((err) => {
+        dispatch(showMessage(err.response.data));
+        setTimeout(() => {
+          dispatch(hideMessage());
+        }, 5000);
+      });
   };
 
   return (
     <Row>
-      <Col lg={4}>
+      <Col>
         <Form>
-          <Form.Group>
+          <Form.Group className="m-2">
             <Form.Control
               type="text"
               name="username"
@@ -36,7 +59,7 @@ const Login = () => {
               placeholder="Username"
             ></Form.Control>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="m-2">
             <Form.Control
               type="password"
               name="password"
@@ -45,7 +68,14 @@ const Login = () => {
               placeholder="Password"
             ></Form.Control>
           </Form.Group>
-          <Button onClick={handleClick}>Submit</Button>
+          {error.showMsg && (
+            <Alert className="m-2" variant="danger">
+              {error.msg}
+            </Alert>
+          )}
+          <Button className="m-2" onClick={handleClick}>
+            Submit
+          </Button>
         </Form>
       </Col>
     </Row>

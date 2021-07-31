@@ -1,7 +1,13 @@
 import {Row, Col, Container} from "react-bootstrap";
-import Register from "../Auth/Register";
+import Login from "../Auth/Login";
+import Loader from "../Loader/Loader";
+import { useAppSelector } from "../../app/hooks";
+import { authState } from "../../slice/auth/authSlice";
 
 const Welcome = () => {
+
+    const auth = useAppSelector(authState);
+
     return(
         <Container>
             <Row className="mt-4">
@@ -20,7 +26,7 @@ const Welcome = () => {
                 </div>
                 </Col>
                 <Col lg={4} md={6} xs={11}>
-                    <Register />
+                    {auth.isLoading ? <Loader /> : <Login />}
                 </Col>
             </Row>
         </Container>

@@ -1,8 +1,14 @@
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { registerUser } from "../../utilities/auth";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { errorState, showMessage, hideMessage } from "../../slice/error/errorSlice";
 
 const Register = () => {
+
+  const error = useAppSelector(errorState);
+  const dispatch = useAppDispatch();
+
   const [registerCreds, setRegisterCreds] = useState({
     username: "",
     password: "",
@@ -19,9 +25,21 @@ const Register = () => {
   const handleClick = () => {
     registerUser(registerCreds)
       .then((res) => {
+        setRegisterCreds({
+          username: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+        });
         console.log("response on front end: ", res);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        dispatch(showMessage(err.response.data));
+        setTimeout(() => {
+          dispatch(hideMessage());
+        }, 5000);
+      });
   };
 
   return (
@@ -73,9 +91,11 @@ const Register = () => {
               placeholder="Password"
             ></Form.Control>
           </Form.Group>
-
+          {error.showMsg &&
+          <Alert className="m-2" variant="danger">{error.msg}</Alert>
+          }
           <Button className="m-2" onClick={handleClick}>
-            Submit
+            Register
           </Button>
         </Form>
       </Col>
