@@ -2,7 +2,7 @@ import axios from "axios";
 import { RegisterUser, LoginUser } from "../models/userModels";
 
 const authClient = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "http://testenv-env.eba-xk2s4afv.us-east-1.elasticbeanstalk.com/",
   headers: {
     "Content-Type": "application/json",
   },
