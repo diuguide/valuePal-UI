@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export const yahoo = (ticker: String) => {
+export const yahoo = (params: Object, endpoint: String) => {
     
   let options : object = {
     method: "GET",
-    url: process.env.REACT_APP_YAHOO_URL,
-    params: {region: 'US', symbols: 'AMD,IBM,AAPL'},
+    url: `https://apidojo-yahoo-finance-v1.p.rapidapi.com/${endpoint}`,
+    params: params,
     headers: {
       "x-rapidapi-key": process.env.REACT_APP_YAHOO_API,
       "x-rapidapi-host": process.env.REACT_APP_YAHOO_HOST,
