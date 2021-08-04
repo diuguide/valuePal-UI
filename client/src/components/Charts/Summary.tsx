@@ -7,7 +7,7 @@ const Summary = () => {
 const handleClick = () => {
     const endpoint = "market/v2/get-summary";
     const params = {
-        region: "US"
+        region: "BR"
     }
     yahoo(params, endpoint);
 }
