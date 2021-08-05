@@ -15,7 +15,7 @@ const handleClick = () => {
     return(
         <Row>
             <Col>
-            <Button onClick={handleClick}></Button>
+            <Button onClick={handleClick}>Click</Button>
             </Col>
         </Row>
     )
