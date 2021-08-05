@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const yahoo = (params: Object, endpoint: String) => {
+export const yahoo = async (params: Object, endpoint: String) => {
   let options: object = {
     method: "GET",
     url: `https://apidojo-yahoo-finance-v1.p.rapidapi.com/${endpoint}`,
@@ -16,23 +16,19 @@ export const yahoo = (params: Object, endpoint: String) => {
     timestamp: []
   }
 
-  axios
+  await axios
     .request(options)
     .then(function (response) {
       console.log("response: ", response.data.marketSummaryAndSparkResponse.result[12].spark);
-      
-      let timestamp =  response.data.marketSummaryAndSparkResponse.result[12].regularMarketTime.raw;
-
       dataObject.close = response.data.marketSummaryAndSparkResponse.result[12].spark.close;
       dataObject.timestamp = response.data.marketSummaryAndSparkResponse.result[12].spark.timestamp;
-
-      console.log("data object: ", dataObject)
-
-      timeConverter(timestamp);
+      console.log("dataObject: ", dataObject);
+      
     })
     .catch(function (error) {
       console.error(error);
     });
+    return dataObject;
 };
 
 const timeConverter = (unix: number) => {

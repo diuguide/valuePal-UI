@@ -1,24 +1,79 @@
 import { Row, Col, Button } from "react-bootstrap";
 import { yahoo } from "../../utilities/stockData";
-import { useEffect } from "react";
+import Chart from "react-apexcharts";
+import { useState, useRef } from "react";
 
 const Summary = () => {
+  const [showChart, setShowChart] = useState(false);
+  const [dataResponse, setDataResponse] = useState({});
+  const response = useRef({
+    close: [],
+    timestamp: [],
+  });
 
-const handleClick = () => {
+  const chartState = {
+    options: {
+      chart: {
+        id: "basic-bar",
+      },
+      xaxis: {
+        categories: response.current.timestamp,
+      },
+      yaxis: {
+          min: 14900,
+          max: 15200
+      }
+    },
+    series: [
+      {
+        name: "series-1",
+        data: response.current.close,
+      },
+    ],
+  };
+
+  const showData = () => {
+    setShowChart(true);
+  };
+
+  const handleClick = () => {
     const endpoint = "market/v2/get-summary";
     const params = {
-        region: "BR"
-    }
-    yahoo(params, endpoint);
-}
+      region: "BR",
+    };
 
-    return(
+    yahoo(params, endpoint)
+      .then((res) => {
+        setDataResponse(res);
+        response.current = res;
+      })
+      .catch((err) => console.error(err));
+  };
+
+  return (
+    <Row>
+      <Col>
         <Row>
-            <Col>
+          <Col>
             <Button onClick={handleClick}>Click</Button>
-            </Col>
+            <Button onClick={showData}>Show Data</Button>
+          </Col>
         </Row>
-    )
-}
+        {showChart && (
+          <Row>
+            <Col>
+              <Chart
+                options={chartState.options}
+                series={chartState.series}
+                type="bar"
+                width="500"
+              />
+            </Col>
+          </Row>
+        )}
+      </Col>
+    </Row>
+  );
+};
 
 export default Summary;
