@@ -19,10 +19,13 @@ const Summary = () => {
       },
       xaxis: {
         categories: response.current.timestamp,
+        labels: {
+          show: false
+        }
       },
       yaxis: {
-        min: 34850,
-        max: 35040,
+        min: Math.min(...response.current.close) - 10,
+        max: Math.max(...response.current.close) + 10,
       },
     },
     series: [

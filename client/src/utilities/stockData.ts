@@ -11,11 +11,13 @@ export const yahoo = async (params: Object, endpoint: String) => {
     },
   };
   interface DB {
+    exchangeName: string;
     close: Array<number>;
     timestamp: Array<string>;
   }
 
   let dataObject: DB = {
+    exchangeName: "",
     close: [],
     timestamp: [],
   };
@@ -27,6 +29,7 @@ export const yahoo = async (params: Object, endpoint: String) => {
         "response: ",
         response.data.marketSummaryAndSparkResponse.result
       );
+      dataObject.exchangeName = response.data.marketSummaryAndSparkResponse.result[8].shortName;
       dataObject.close =
         response.data.marketSummaryAndSparkResponse.result[8].spark.close;
       let timeData: Array<string> =
