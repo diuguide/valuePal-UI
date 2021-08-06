@@ -4,6 +4,11 @@ import Chart from "react-apexcharts";
 import { useState, useRef } from "react";
 
 const Summary = () => {
+  interface DB {
+    close: Array<number>,
+    timestamp: Array<string>
+  }
+
   const [showChart, setShowChart] = useState(false);
   const [dataResponse, setDataResponse] = useState({});
   const response = useRef({
@@ -20,9 +25,9 @@ const Summary = () => {
         categories: response.current.timestamp,
       },
       yaxis: {
-          min: 14900,
-          max: 15200
-      }
+        min: 34850,
+        max: 35040,
+      },
     },
     series: [
       {
@@ -43,10 +48,7 @@ const Summary = () => {
     };
 
     yahoo(params, endpoint)
-      .then((res) => {
-        setDataResponse(res);
-        response.current = res;
-      })
+      .then((res: any) => response.current = res)
       .catch((err) => console.error(err));
   };
 

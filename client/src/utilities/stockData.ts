@@ -10,18 +10,23 @@ export const yahoo = async (params: Object, endpoint: String) => {
       "x-rapidapi-host": process.env.REACT_APP_YAHOO_HOST,
     },
   };
+  interface DB {
+    close: Array<number>,
+    timestamp: Array<string>
+  }
 
-  let dataObject = {
+  let dataObject : DB= {
     close: [],
     timestamp: []
   }
 
   await axios
     .request(options)
-    .then(function (response) {
-      console.log("response: ", response.data.marketSummaryAndSparkResponse.result[12].spark);
-      dataObject.close = response.data.marketSummaryAndSparkResponse.result[12].spark.close;
-      dataObject.timestamp = response.data.marketSummaryAndSparkResponse.result[12].spark.timestamp;
+    .then(function (response: any) {
+      console.log("response: ", response.data.marketSummaryAndSparkResponse.result);
+      dataObject.close = response.data.marketSummaryAndSparkResponse.result[8].spark.close;
+      let timeData: Array<string> = response.data.marketSummaryAndSparkResponse.result[8].spark.timestamp;
+      timeData.map((time, index) => dataObject.timestamp.push(timeConverter(time)));
       console.log("dataObject: ", dataObject);
       
     })
@@ -31,12 +36,13 @@ export const yahoo = async (params: Object, endpoint: String) => {
     return dataObject;
 };
 
-const timeConverter = (unix: number) => {
-  let date = new Date(unix * 1000);
+const timeConverter = (unix: string) => {
+  let num = parseInt(unix);
+  let date = new Date(num * 1000);
   var hours = date.getHours();
   var minutes = "0" + date.getMinutes();
   var seconds = "0" + date.getSeconds();
   var formattedTime =
     hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
-  console.log("formatted Time: ", formattedTime);
+  return formattedTime;
 };
