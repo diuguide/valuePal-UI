@@ -4,11 +4,7 @@ import Chart from "react-apexcharts";
 import { useState, useRef } from "react";
 
 const Summary = () => {
-  interface DB {
-    close: Array<number>,
-    timestamp: Array<string>
-  }
-
+ 
   const [showChart, setShowChart] = useState(false);
   const [dataResponse, setDataResponse] = useState({});
   const response = useRef({

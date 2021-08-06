@@ -11,29 +11,33 @@ export const yahoo = async (params: Object, endpoint: String) => {
     },
   };
   interface DB {
-    close: Array<number>,
-    timestamp: Array<string>
+    close: Array<number>;
+    timestamp: Array<string>;
   }
 
-  let dataObject : DB= {
+  let dataObject: DB = {
     close: [],
-    timestamp: []
-  }
+    timestamp: [],
+  };
 
   await axios
     .request(options)
     .then(function (response: any) {
-      console.log("response: ", response.data.marketSummaryAndSparkResponse.result);
-      dataObject.close = response.data.marketSummaryAndSparkResponse.result[8].spark.close;
-      let timeData: Array<string> = response.data.marketSummaryAndSparkResponse.result[8].spark.timestamp;
-      timeData.map((time, index) => dataObject.timestamp.push(timeConverter(time)));
+      console.log(
+        "response: ",
+        response.data.marketSummaryAndSparkResponse.result
+      );
+      dataObject.close =
+        response.data.marketSummaryAndSparkResponse.result[8].spark.close;
+      let timeData: Array<string> =
+        response.data.marketSummaryAndSparkResponse.result[8].spark.timestamp;
+      timeData.map((time) => dataObject.timestamp.push(timeConverter(time)));
       console.log("dataObject: ", dataObject);
-      
     })
     .catch(function (error) {
       console.error(error);
     });
-    return dataObject;
+  return dataObject;
 };
 
 const timeConverter = (unix: string) => {
