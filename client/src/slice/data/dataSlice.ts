@@ -24,8 +24,8 @@ export const dataSlice = createSlice({
       state.dataLoading = true;
       state.dataLoaded = false;
     },
-    isLoaded: (state, action: PayloadAction<object>) => {
-      state.data = action.payload;
+    isLoaded: (state) => {
+      state.data = yahooSummary.fulfilled;
       state.dataLoading = false;
       state.dataLoaded = true;
     },
