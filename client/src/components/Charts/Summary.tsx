@@ -1,77 +1,41 @@
-import { Row, Col, Button } from "react-bootstrap";
-import { yahoo } from "../../utilities/stockData";
+import { Row, Col } from "react-bootstrap";
 import Chart from "react-apexcharts";
-import { useState, useRef } from "react";
 
-const Summary = () => {
- 
-  const [showChart, setShowChart] = useState(false);
-  const [dataResponse, setDataResponse] = useState({});
-  const response = useRef({
-    close: [],
-    timestamp: [],
-  });
-
+const Summary = ({data}) => {
+  
   const chartState = {
     options: {
       chart: {
         id: "basic-bar",
       },
       xaxis: {
-        categories: response.current.timestamp,
+        categories: data.timestamp,
         labels: {
-          show: false
-        }
+          show: false,
+        },
       },
       yaxis: {
-        min: Math.min(...response.current.close) - 10,
-        max: Math.max(...response.current.close) + 10,
+        min: Math.min(...data.close) - 10,
+        max: Math.max(...data.close) + 10,
       },
     },
     series: [
       {
         name: "series-1",
-        data: response.current.close,
+        data: data.close,
       },
     ],
-  };
-
-  const showData = () => {
-    setShowChart(true);
-  };
-
-  const handleClick = () => {
-    const endpoint = "market/v2/get-summary";
-    const params = {
-      region: "BR",
-    };
-
-    yahoo(params, endpoint)
-      .then((res: any) => response.current = res)
-      .catch((err) => console.error(err));
   };
 
   return (
     <Row>
       <Col>
-        <Row>
-          <Col>
-            <Button onClick={handleClick}>Click</Button>
-            <Button onClick={showData}>Show Data</Button>
-          </Col>
-        </Row>
-        {showChart && (
-          <Row>
-            <Col>
-              <Chart
-                options={chartState.options}
-                series={chartState.series}
-                type="bar"
-                width="500"
-              />
-            </Col>
-          </Row>
-        )}
+        <Chart
+          options={chartState.options}
+          series={chartState.series}
+          type="bar"
+          width="500"
+        />
       </Col>
     </Row>
   );

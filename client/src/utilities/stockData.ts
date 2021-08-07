@@ -1,6 +1,12 @@
 import axios from "axios";
 
-export const yahoo = async (params: Object, endpoint: String) => {
+export interface DB {
+    exchangeName: string;
+    close: Array<number>;
+    timestamp: Array<string>;
+  }
+
+export const yahoo = async (params: object, endpoint: string) => {
   let options: object = {
     method: "GET",
     url: `https://apidojo-yahoo-finance-v1.p.rapidapi.com/${endpoint}`,
@@ -10,12 +16,7 @@ export const yahoo = async (params: Object, endpoint: String) => {
       "x-rapidapi-host": process.env.REACT_APP_YAHOO_HOST,
     },
   };
-  interface DB {
-    exchangeName: string;
-    close: Array<number>;
-    timestamp: Array<string>;
-  }
-
+  
   let dataObject: DB = {
     exchangeName: "",
     close: [],
