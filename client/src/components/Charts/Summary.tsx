@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import Chart from "react-apexcharts";
 
-const Summary = ({data}) => {
+const Summary = () => {
   
   const chartState = {
     options: {
