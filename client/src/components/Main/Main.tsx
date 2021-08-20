@@ -1,6 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import { authState } from "../../slice/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
+import Summary from "../Charts/Summary";
 
 const Main = () => {
     const auth = useAppSelector(authState);
@@ -10,6 +11,7 @@ const Main = () => {
         <Row>
             <Col>
             <h1>main test</h1>
+            <Summary />
             </Col>
         </Row>
         : 
